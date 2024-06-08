@@ -28,7 +28,6 @@ def insertNote():
     try:
         cur.execute("INSERT INTO notes (noteText, timeInMinutes) VALUES (?, ?)", (note_text, time_in_minutes))
         db.commit()
-        # return jsonify({'message': 'Note inserted successfully', 'status': 100})
         return '100 ok'
     except Exception as e:
         print(f'Something went wrong while inserting: {e}')

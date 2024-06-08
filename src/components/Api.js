@@ -19,7 +19,8 @@ export async function getAllNotes() {
     try {
         const response = await fetch(url);
         const jsonResponse = await response.json();
-        console.log('All notes:', jsonResponse); 
+        // console.log('All notes:', jsonResponse); 
+        return jsonResponse;
     } catch(err) {
         console.log('ERROR', err);
     }

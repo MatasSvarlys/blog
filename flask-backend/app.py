@@ -20,7 +20,6 @@ def close_connection(exception):
 
 @app.route('/insertNote', methods=['POST'])
 def insertNote():
-    print('helo')
     db = get_db()
     cur = db.cursor()
     data = request.get_json()

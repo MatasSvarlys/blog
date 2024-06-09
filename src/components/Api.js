@@ -16,11 +16,29 @@ export async function insertNote(data) {
   
 export async function getAllNotes() {
     const url = 'http://127.0.0.1:8000/notes';
+
+    function convertArrayToNotes(data) {
+        if (!Array.isArray(data)) {
+          throw new Error('Input must be an array');
+        }
+
+        const columnNames = ['id', 'noteText', 'timeToFinish', 'finishDate', 'orderIndex'];
+      
+        return data.map((row) => {
+          const obj = {};
+          for (let i = 0; i < columnNames.length; i++) {
+            obj[columnNames[i]] = row[i];
+          }
+          return obj;
+        });
+      }
+
     try {
         const response = await fetch(url);
         const jsonResponse = await response.json();
-        // console.log('All notes:', jsonResponse); 
-        return jsonResponse;
+        const noteJson = convertArrayToNotes(jsonResponse);
+        // console.log('All notes:', noteJson); 
+        return noteJson;
     } catch(err) {
         console.log('ERROR', err);
     }

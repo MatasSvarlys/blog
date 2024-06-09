@@ -4,7 +4,8 @@ import {deleteLastNote, insertNote, getAllNotes} from './Api'
 export default function Todo(){
     const tempNote = {
         noteText: 'Sample note text',
-        timeInMinutes: 30
+        timeInMinutes: 30,
+        finishDate: "2024-06-09"
     };
 
     const [notes, setNotes] = useState([]);
@@ -28,17 +29,49 @@ export default function Todo(){
         fetchNotes();
     };
                     
+    const groupNotes = (notes) => {
+        // console.log(notes);
+        if (Array.isArray(notes)) {
+          return notes.reduce((acc, note) => {
+            const finishDate = note[3];
+            if (!acc[finishDate]) {
+              acc[finishDate] = [];
+            }
+            acc[finishDate].push(note);
+            return acc;
+          }, {});
+        } else {
+          console.log("notes are not in an array format");
+          return {};
+        }
+      };
+    
+    const groupedNotesByDate = groupNotes(notes);
     
     return(
         <>
             <button onClick={handleInsertNote}>Add note</button>
             <button onClick={handleDeleteLastNote}>Delete last note</button>
             <div>Todo list:</div>
-            <ul>
-                {notes && notes.length > 0 ? notes.map((element, index) => (
-                    <li key={index}>{element[1]}</li>
-                )) : <li>No notes available</li>}
-            </ul>
+            {notes && Object.keys(groupedNotesByDate).length > 0 ? (
+                <ul>
+                    {Object.keys(groupedNotesByDate).map((finishDate) => (
+                    <li key={finishDate}>
+                        <h3>Date: {finishDate}</h3>
+                        <ul>
+                        {groupedNotesByDate[finishDate].map((note, index) => (
+                            <li key={index}>
+                                {note[1]}, {note[2]} min
+                            </li>
+                        ))}
+                        </ul>
+                    </li>
+                    ))}
+                </ul>
+                ) : (
+                <li>No notes found.</li>
+            )}
+
         </>
     );
 }

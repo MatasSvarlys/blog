@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app, origins=['http://localhost:3000', 'http://127.0.0.1:8000'])
+CORS(app)
 DATABASE = 'database/backendDatabase.db'
 
 def get_db():
@@ -17,7 +17,7 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
-
+        
 @app.route('/insertNote', methods=['POST'])
 def insertNote():
     db = get_db()
@@ -25,8 +25,9 @@ def insertNote():
     data = request.get_json()
     note_text = data.get('noteText')
     time_in_minutes = data.get('timeInMinutes')
+    finish_date = data.get('finishDate')
     try:
-        cur.execute("INSERT INTO notes (noteText, timeInMinutes) VALUES (?, ?)", (note_text, time_in_minutes))
+        cur.execute("INSERT INTO notes (noteText, timeInMinutes, finishDate) VALUES (?, ?, ?)", (note_text, time_in_minutes, finish_date))
         db.commit()
         return '100 ok'
     except Exception as e:

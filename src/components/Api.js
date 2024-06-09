@@ -1,5 +1,5 @@
 export async function insertNote(data) {
-    const url = 'http://localhost:8000/insertNote';
+    const url = 'http://127.0.0.1:8000/insertNote';
     const options = {
         method: 'POST',
         body: JSON.stringify(data),
@@ -7,15 +7,15 @@ export async function insertNote(data) {
     };
     try {
         const response = await fetch(url, options);
-        const jsonResponse = await response.text();
-        console.log('JSON response', jsonResponse);
+        // const jsonResponse = await response.text();
+        // console.log('JSON response', jsonResponse);
     } catch(err) {
         console.log('ERROR', err);
     }
 }
   
 export async function getAllNotes() {
-    const url = 'http://localhost:8000/notes';
+    const url = 'http://127.0.0.1:8000/notes';
     try {
         const response = await fetch(url);
         const jsonResponse = await response.json();
@@ -27,14 +27,14 @@ export async function getAllNotes() {
 }
 
 export async function deleteLastNote() {
-    const url = 'http://localhost:8000/deleteLastNote';
+    const url = 'http://127.0.0.1:8000/deleteLastNote';
     const options = {
         method:'DELETE'
     };
     try {
         const response = await fetch(url, options);
-        const jsonResponse = await response.json();
-        console.log('Response: ', jsonResponse);
+        // const jsonResponse = await response.json();
+        // console.log('Response: ', jsonResponse);
     } catch(err) {
         console.log('ERROR', err);
     }

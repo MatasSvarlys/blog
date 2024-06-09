@@ -7,8 +7,8 @@ export async function insertNote(data) {
     };
     try {
         const response = await fetch(url, options);
-        // const jsonResponse = await response.text();
-        // console.log('JSON response', jsonResponse);
+        const jsonResponse = await response.text();
+        console.log('JSON response', jsonResponse);
     } catch(err) {
         console.log('ERROR', err);
     }
@@ -17,12 +17,15 @@ export async function insertNote(data) {
 export async function getAllNotes() {
     const url = 'http://127.0.0.1:8000/notes';
 
-    function convertArrayToNotes(data) {
+    const convertArrayToNotes = (data) => {
+        if(data.status == 300){
+            return [];
+        }
         if (!Array.isArray(data)) {
           throw new Error('Input must be an array');
         }
 
-        const columnNames = ['id', 'noteText', 'timeToFinish', 'finishDate', 'orderIndex'];
+        const columnNames = ['id', 'noteText', 'timeToFinish', 'finishDate', 'displayIndex'];
       
         return data.map((row) => {
           const obj = {};
@@ -36,9 +39,7 @@ export async function getAllNotes() {
     try {
         const response = await fetch(url);
         const jsonResponse = await response.json();
-        const noteJson = convertArrayToNotes(jsonResponse);
-        // console.log('All notes:', noteJson); 
-        return noteJson;
+        return convertArrayToNotes(jsonResponse);
     } catch(err) {
         console.log('ERROR', err);
     }

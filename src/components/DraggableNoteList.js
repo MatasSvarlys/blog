@@ -8,7 +8,7 @@ export default function DraggableNoteList({ notes }){
             {notes.map((note, index) =>{
                 return (
                 <li key={index}>
-                    {note.noteText}, {note.timeToFinish} min
+                    {note.noteText}, {note.timeToFinish} min, index: {note.displayIndex}
                 </li>
                 );})}
         </ul>

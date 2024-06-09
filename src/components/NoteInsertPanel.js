@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import {insertNote} from './Api'
   
-export default function NoteInsertPanel ({ fetchNotes }) {
+export default function NoteInsertPanel ({ fetchNotes, orderedNotes }) {
   const [noteText, setNoteText] = useState('');
   const [timeInMinutes, setTimeInMinutes] = useState('');
   const [finishDate, setFinishDate] = useState('');
 
   const handleInsertNote = async () => {
-    try {
-        const newNote = { noteText, timeInMinutes: parseInt(timeInMinutes), finishDate };
+    const handleDisplayIndex = () => {
+      const notesThisDay = orderedNotes[finishDate];
+      return (notesThisDay?.length || 0);
+      }
+      try {
+        const displayIndex = handleDisplayIndex();
+        console.log(displayIndex);
+        const newNote = { noteText, timeInMinutes: parseInt(timeInMinutes), finishDate, displayIndex};
         await insertNote(newNote);
         fetchNotes();
         // Clear input fields

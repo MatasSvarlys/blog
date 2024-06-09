@@ -23,6 +23,9 @@ export default function Todo(){
                     
     const groupNotes = (notes) => {
         // console.log(notes);
+        if(!notes){
+          return {};
+        }
         if (Array.isArray(notes)) {
           return notes.reduce((acc, note) => {
             const finishDate = note.finishDate;
@@ -41,7 +44,7 @@ export default function Todo(){
     const groupedNotesByDate = groupNotes(notes);
     return(
         <>
-            <NoteInsertPanel fetchNotes={fetchNotes}/>
+            <NoteInsertPanel fetchNotes={fetchNotes} orderedNotes={groupedNotesByDate}/>
             <button onClick={handleDeleteLastNote}>Delete last note</button>
             <div>Todo list:</div>
             {notes && Object.keys(groupedNotesByDate).length > 0 ? (

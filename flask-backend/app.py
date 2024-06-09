@@ -26,8 +26,9 @@ def insertNote():
     note_text = data.get('noteText')
     time_in_minutes = data.get('timeInMinutes')
     finish_date = data.get('finishDate')
+    display_index = data.get('displayIndex')
     try:
-        cur.execute("INSERT INTO notes (noteText, timeInMinutes, finishDate) VALUES (?, ?, ?)", (note_text, time_in_minutes, finish_date))
+        cur.execute("INSERT INTO notes (noteText, timeInMinutes, finishDate, displayIndex) VALUES (?, ?, ?, ?)", (note_text, time_in_minutes, finish_date, display_index))
         db.commit()
         return '100 ok'
     except Exception as e:

@@ -1,65 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import {deleteLastNote, getAllNotes} from './Api'
+import React, { useState, useEffect } from 'react';
+import { deleteLastNote, getNotesGroupedByDate } from './Api';
 import NoteInsertPanel from './NoteInsertPanel';
 import DraggableNoteList from './DraggableNoteList';
 
-export default function Todo(){
-    const [notes, setNotes] = useState([]);
-    const [debugMode, setDebugMode] = useState(true);
+export default function Todo() {
+  const [groupedNotesByDate, setGroupedNotesByDate] = useState({});
+  const [debugMode, setDebugMode] = useState(true);
 
-    useEffect(() => {
-        fetchNotes();
-    }, []);
+  useEffect(() => {
+    fetchGroupedNotes();
+  }, []);
 
-    const fetchNotes = async () => {
-        const fetchedNotes = await getAllNotes();
-        setNotes(fetchedNotes);
-    };
-        
+  const fetchGroupedNotes = async () => {
+    const groupedNotes = await getNotesGroupedByDate();
+    setGroupedNotesByDate(groupedNotes);
+  };
 
-    const handleDeleteLastNote = async () => {
-        await deleteLastNote();
-        fetchNotes();
-    };
-                    
-    const groupNotes = (notes) => {
-        // console.log(notes);
-        if(!notes){
-          return {};
-        }
-        if (Array.isArray(notes)) {
-          return notes.reduce((acc, note) => {
-            const finishDate = note.finishDate;
-            if (!acc[finishDate]) {
-              acc[finishDate] = [];
-            }
-            acc[finishDate].push(note);
-            return acc;
-          }, {});
-        } else {
-          console.log("notes are not in an array format");
-          return {};
-        }
-      };
-    
-    const groupedNotesByDate = groupNotes(notes);
-    return(
+  const handleDeleteLastNote = async () => {
+    await deleteLastNote();
+    fetchGroupedNotes();
+  };
+
+  const handleGetNotesByDate = async () => {
+    const groupedNotes = await getNotesGroupedByDate();
+    setGroupedNotesByDate(groupedNotes);
+  };
+
+  return (
+    <>
+      <NoteInsertPanel fetchNotes={fetchGroupedNotes} orderedNotes={groupedNotesByDate} />
+      {debugMode ? (
         <>
-          <NoteInsertPanel fetchNotes={fetchNotes} orderedNotes={groupedNotesByDate}/>
-          {debugMode?
-            <button onClick={handleDeleteLastNote}>Delete last note</button>
-            : null
-          }
-          {notes && Object.keys(groupedNotesByDate).length > 0 ? (
-              <ul>
-                  {Object.keys(groupedNotesByDate).map((finishDate) => (
-                    <li key={finishDate}>
-                        <h3>Date: {finishDate?finishDate:"not specified"}</h3>
-                        <DraggableNoteList notes={groupedNotesByDate[finishDate]} debugMode={debugMode}/>
-                    </li>
-                  ))}
-              </ul>
-              ) : (<li>No notes found.</li>)}
+          <button onClick={handleDeleteLastNote}>Delete last note</button>
+          <button onClick={handleGetNotesByDate}>Fetch notes grouped by date</button>
         </>
-    );
+      ) : null}
+      {groupedNotesByDate && Object.keys(groupedNotesByDate).length > 0 ? (
+        <ul>
+          {Object.keys(groupedNotesByDate).map((finishDate) => (
+            <li key={finishDate}>
+              <h3>Date: {finishDate ? finishDate : 'Not specified'}</h3>
+              <DraggableNoteList notes={groupedNotesByDate[finishDate]} debugMode={debugMode} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <li>No notes found.</li>
+      )}
+    </>
+  );
 }

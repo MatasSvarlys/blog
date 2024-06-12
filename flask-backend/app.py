@@ -35,21 +35,6 @@ def insertNote():
         print(f'Something went wrong while inserting: {e}')
         return jsonify({'message': 'Insert error', 'status': 200})
 
-@app.route('/note/<int:note_id>', methods=['GET'])
-def get_note_by_id(note_id):
-    db = get_db()
-    cur = db.cursor()
-    try:
-        cur.execute("SELECT * FROM notes WHERE id = ?", (note_id,))
-        note = cur.fetchone()
-        if note:
-            return jsonify(note)
-        else:
-            return jsonify({'message': 'Record not in database', 'status': 300})
-    except Exception as e:
-        print(f'Error: {e}')
-        return jsonify({'message': 'Select error', 'status': 201})
-
 @app.route('/notes')
 def get_notes():
     db = get_db()
@@ -64,6 +49,44 @@ def get_notes():
     except Exception as e:
         print(f'Error: {e}')
         return jsonify({'message': 'Select error', 'status': 201})
+
+@app.route('/finishDates')
+def get_finish_dates():
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute("SELECT finishDate FROM notes GROUP BY finishDate")
+        notes = cur.fetchall()
+        if notes:
+            return jsonify(notes)
+        else:
+            return jsonify({'message': 'No records in database', 'status': 300})
+    except Exception as e:
+        print(f'Error: {e}')
+        return jsonify({'message': 'Select error', 'status': 201})
+
+@app.route('/notesByDate')
+def get_notes_by_date():
+    finish_date = request.args.get('finishDate')
+    if not finish_date:
+        return jsonify({'message': 'finishDate parameter is required', 'status': 400})
+
+    db = get_db()
+    cur = db.cursor()
+    try:
+        if (finish_date != 'null'):
+            cur.execute("SELECT id, noteText, timeInMinutes, displayIndex FROM notes WHERE finishDate = ?", (finish_date,))
+        else:
+            cur.execute("SELECT id, noteText, timeInMinutes, displayIndex FROM notes WHERE finishDate = ''")
+        notes = cur.fetchall()
+        if notes:
+            return jsonify(notes)
+        else:
+            return jsonify({'message': 'No notes found for the given date', 'status': 300})
+    except Exception as e:
+        print(f'Error: {e}')
+        return jsonify({'message': 'Select error', 'status': 201})
+
 
 @app.route('/deleteLastNote', methods=['DELETE'])
 def deleteLastNote():

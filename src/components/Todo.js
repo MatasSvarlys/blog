@@ -26,8 +26,12 @@ export default function Todo() {
     setGroupedNotesByDate(groupedNotes);
   };
 
+  const toggleDebug = () =>{
+    setDebugMode(!debugMode);
+  }
   return (
     <>
+      <button onClick={toggleDebug}>toggle debug mode</button>
       <NoteInsertPanel fetchNotes={fetchGroupedNotes} orderedNotes={groupedNotesByDate} />
       {debugMode ? (
         <>

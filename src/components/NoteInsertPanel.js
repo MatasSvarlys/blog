@@ -13,7 +13,7 @@ export default function NoteInsertPanel ({ fetchNotes, orderedNotes }) {
       }
       try {
         const displayIndex = handleDisplayIndex();
-        console.log(displayIndex);
+        // console.log(displayIndex);
         const newNote = { noteText, timeInMinutes: parseInt(timeInMinutes), finishDate, displayIndex};
         await insertNote(newNote);
         fetchNotes();

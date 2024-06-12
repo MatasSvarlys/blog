@@ -8,10 +8,8 @@ export async function insertNote(data) {
         headers: { 'Content-Type': 'application/json' }
     };
     try {
-        // const response = 
         await fetch(url, options);
-        // const jsonResponse = await response.text(); //TODO: add response
-        // console.log('JSON response', jsonResponse);
+        //TODO: add response
     } catch(err) {
         console.log('ERROR', err);
     }
@@ -29,6 +27,7 @@ export async function getNotesGroupedByDate(){
     
     const convertArrayToNotes = (data) => {
         if(data.status === 300){
+            //TODO: return smth to make sure its not an error
             return [];
         }
         if (!Array.isArray(data)) {
@@ -49,15 +48,18 @@ export async function getNotesGroupedByDate(){
     const fetchedDatesResponse = await fetch(datesLink);
     const fetchedDates = await fetchedDatesResponse.json();
     
+    if(fetchedDates.status === 300){ 
+        //TODO: return smth to make sure its not an error
+        return {};
+    }
+
     const tasksByDate = {};
     
     for (const date of fetchedDates) {
-        // console.log(date.toString());
         const notes = await fetchNotesByDate(date.toString());
-        // console.log(notes);
         tasksByDate[date] = convertArrayToNotes(notes);
     }
-    console.log(tasksByDate);
+
     return tasksByDate;
 }
 
@@ -98,8 +100,8 @@ export async function deleteLastNote() {
         method:'DELETE'
     };
     try {
-        // const response = 
-        await fetch(url, options); //TODO: add response
+        await fetch(url, options); 
+        //TODO: add response
     } catch(err) {
         console.log('ERROR', err);
     }

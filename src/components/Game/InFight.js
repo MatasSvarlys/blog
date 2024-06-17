@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function InFight({ setInFight }) {
-    const [timeLeft, setTimeLeft] = useState(10);
+    const [timeLeft, setTimeLeft] = useState(3);
 
     useEffect(() => {
         if (timeLeft > 0) {

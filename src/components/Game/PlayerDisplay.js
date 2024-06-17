@@ -1,11 +1,18 @@
 import playerPicture from '../../assets/stickman.png';
+import { useContext } from "react";
+import { PlayerContext } from "./PlayerContext";
 
-export default function PlayerDisplay({abilities}){
+
+
+export default function PlayerDisplay(){
+    const {player} = useContext(PlayerContext);
+
     return(
         <div className="player">
+            <div className='class-name'>player class: {player.playerClass}</div>
             <div className="player-abilities">
                 <ul>
-                    {abilities.map((ability, index) => {
+                    {player.abilities.map((ability, index) => {
                         return <li key={index}>{ability}</li>;
                     })}
                 </ul>    

@@ -7,6 +7,7 @@ export default function Navbar(){
             <Link to={"/"} className='nav-button'>Home</Link>
             <Link to={"/Notes"} className='nav-button'>Notes</Link>
             <Link to={"/songRecom"} className='nav-button'>Spotify recommended</Link>
+            <Link to={"/simpleRoguelite"} className='nav-button'>Simple game</Link>
         </div>
     );
 }

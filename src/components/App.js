@@ -6,6 +6,7 @@ import Home from "./Home"
 import NotesIndex from "./Notes/NotesIndex"
 import SongRecom from "./SongRecom"
 import Navbar from "./Navbar"
+import GameIndex from "./Game/GameIndex"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route exact path="/" element={<Home />}></Route>
             <Route path="/Notes" element={<NotesIndex />}></Route>
             <Route path="/songRecom" element={<SongRecom />}></Route>
+            <Route path="/simpleRoguelite" element={<GameIndex />}></Route>
         </Routes>
       </BrowserRouter>
     </DndProvider>

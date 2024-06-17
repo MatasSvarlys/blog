@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {insertNote} from './Api'
+import {insertNote} from './NotesApi'
   
 export default function NoteInsertPanel ({ fetchNotes, orderedNotes }) {
   const [noteText, setNoteText] = useState('');

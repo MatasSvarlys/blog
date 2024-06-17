@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { deleteLastNote, getNotesGroupedByDate } from './Api';
+import { deleteLastNote, getNotesGroupedByDate } from './NotesApi';
 import NoteInsertPanel from './NoteInsertPanel';
 import DraggableNoteList from './DraggableNoteList';
 

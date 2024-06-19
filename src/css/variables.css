@@ -4,5 +4,7 @@
     --darker2: #34002A;
     --lighter1: #9D508E;
     --lighter2: #C184B6;
+    --text-color: white;
+    --text-highlight: var(--darker2);
     font-size: 24px;
 }

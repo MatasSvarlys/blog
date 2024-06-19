@@ -1,5 +1,6 @@
 import { PlayerContext } from "./PlayerContext";
 import { useContext } from "react";
+import "../../css/Game/game.css"
 
 export default function ChooseClass(){
     const { setPlayer } = useContext(PlayerContext);
@@ -27,9 +28,9 @@ export default function ChooseClass(){
 
     return (
         <div className="choose-class">
-            <button className="wizard" onClick={setWizardClass}>wizard</button>
-            <button className="fighter" onClick={setFighterClass}>fighter</button>
-            <button className="tank" onClick={setTankClass}>tank</button>
+            <button className="button class-button" onClick={setWizardClass}>wizard</button>
+            <button className="button class-button" onClick={setFighterClass}>fighter</button>
+            <button className="button class-button" onClick={setTankClass}>tank</button>
         </div>
     );
 }

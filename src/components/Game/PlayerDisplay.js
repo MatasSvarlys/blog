@@ -8,17 +8,17 @@ export default function PlayerDisplay(){
     const {player} = useContext(PlayerContext);
 
     return(
-        <div className="player">
-            <div className='class-name'>player class: {player.playerClass}</div>
-            <div className="player-abilities">
-                <ul>
-                    {player.abilities.map((ability, index) => {
-                        return <li key={index}>{ability}</li>;
-                    })}
-                </ul>    
-            </div> 
+        <div className="player half">
+            <div className='class-name'>{player.playerClass}</div>
             <div className="player-picture">
-                <img src={playerPicture} alt="Player" />
+                <img className="pic" src={playerPicture} alt="Player" />
+                <div className="player-abilities">
+                    <ul>
+                        {player.abilities.map((ability, index) => {
+                            return <li key={index}>{ability}</li>;
+                        })}
+                    </ul>    
+                </div> 
             </div>
         </div>
     );
